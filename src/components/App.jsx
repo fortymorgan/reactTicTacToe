@@ -9,11 +9,15 @@ export default class App extends React.Component {
     this.state = {
       turn: 'cross',
       field: fieldTemplate,
+      fieldStat: {
+        cross: [],
+        ring: [],
+      }
     }
   }
 
   onTurn = (id) => () => {
-    const { turn, field } = this.state;
+    const { turn, field, fieldStat } = this.state;
 
     const nextTurn = {
       cross: 'ring',
@@ -22,7 +26,10 @@ export default class App extends React.Component {
 
     const newField = field.map(row => row.map(cell => cell.id === id ? { ...cell, value: turn } : cell));
 
-    this.setState({ turn: nextTurn[turn], field: newField });
+    const newFieldStat = turn === 'cross' ? ({ ...fieldStat, cross: [...fieldStat.cross, id] }) :
+      ({ ...fieldStat, ring: [...fieldStat.ring, id] });
+
+    this.setState({ turn: nextTurn[turn], field: newField, fieldStat: newFieldStat });
   }
 
   onReset = () => {
@@ -30,14 +37,15 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { turn, field } = this.state;
+    const { turn, field, fieldStat } = this.state;
 
-    const { win, winner } = isThereWinner(field)
+    const { win, winner } = isThereWinner(fieldStat)
 
     const message = <p>{win ? `The winner is ${winner}` : `Now is ${turn}'s turn`}</p>;
     
     return (
       <div className="m-3 col-3">
+        <h3 className="mb-3">Tic Tac Toe</h3>
         <Table field={field} onTurn={this.onTurn} />
         {message}
         <button type="button" className="btn btn-primary" onClick={this.onReset}>Start over</button>

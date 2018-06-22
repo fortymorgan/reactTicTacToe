@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from './Table.jsx';
-import isThereWinner from '../scripts/isThereWinner';
-import fieldTemplate from '../scripts/fieldTemplate';
+import isThereWinner from '../isThereWinner';
+import fieldTemplate from '../fieldTemplate';
 
 export default class App extends React.Component {
   constructor(props) {

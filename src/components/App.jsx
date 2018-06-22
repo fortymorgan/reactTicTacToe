@@ -33,7 +33,7 @@ export default class App extends React.Component {
   }
 
   onReset = () => {
-    this.setState({ field: fieldTemplate, turn: 'cross' });
+    this.setState({ field: fieldTemplate, turn: 'cross', fieldStat: { cross: [], ring: [] } });
   }
 
   render() {

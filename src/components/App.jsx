@@ -19,10 +19,7 @@ export default class App extends React.Component {
   }
 
   onTurn = (id) => () => {
-    const { turn, field, fieldStat } = this.state;
-
-    const { win, winner } = isThereWinner(fieldStat)
-    this.setState({ win, winner });
+    const { turn, field, fieldStat, win } = this.state;
 
     if (!win) {
       const nextTurn = {
@@ -36,7 +33,9 @@ export default class App extends React.Component {
       const newFieldStat = turn === 'cross' ? ({ ...fieldStat, cross: [...fieldStat.cross, id] }) :
         ({ ...fieldStat, ring: [...fieldStat.ring, id] });
   
-      this.setState({ turn: nextTurn[turn], field: newField, fieldStat: newFieldStat });
+      const { isWin, winner } = isThereWinner(newFieldStat);
+
+      this.setState({ turn: nextTurn[turn], field: newField, fieldStat: newFieldStat, win: isWin, winner });
     }
   }
 

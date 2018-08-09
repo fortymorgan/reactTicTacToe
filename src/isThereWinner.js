@@ -3,6 +3,6 @@ export default (fieldStat) => {
 
   return Object.keys(fieldStat).reduce((acc, sign) => {
     const isWinner = winConditions.some(condition => condition.every(cellNumber => fieldStat[sign].includes(cellNumber)));
-    return isWinner ? { win: true, winner: sign } : acc
-  }, { win: false, winner: 'none' });
+    return isWinner ? { isWin: true, winner: sign } : acc
+  }, { isWin: false, winner: 'none' });
 };

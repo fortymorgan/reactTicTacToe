@@ -12,24 +12,32 @@ export default class App extends React.Component {
       fieldStat: {
         cross: [],
         ring: [],
-      }
+      },
+      win: false,
+      winner: 'none',
     }
   }
 
   onTurn = (id) => () => {
     const { turn, field, fieldStat } = this.state;
 
-    const nextTurn = {
-      cross: 'ring',
-      ring: 'cross',
-    };
+    const { win, winner } = isThereWinner(fieldStat)
+    this.setState({ win, winner });
 
-    const newField = field.map(row => row.map(cell => cell.id === id ? { ...cell, value: turn } : cell));
-
-    const newFieldStat = turn === 'cross' ? ({ ...fieldStat, cross: [...fieldStat.cross, id] }) :
-      ({ ...fieldStat, ring: [...fieldStat.ring, id] });
-
-    this.setState({ turn: nextTurn[turn], field: newField, fieldStat: newFieldStat });
+    if (!win) {
+      const nextTurn = {
+        cross: 'ring',
+        ring: 'cross',
+      };
+  
+  
+      const newField = field.map(row => row.map(cell => cell.id === id ? { ...cell, value: turn } : cell));
+  
+      const newFieldStat = turn === 'cross' ? ({ ...fieldStat, cross: [...fieldStat.cross, id] }) :
+        ({ ...fieldStat, ring: [...fieldStat.ring, id] });
+  
+      this.setState({ turn: nextTurn[turn], field: newField, fieldStat: newFieldStat });
+    }
   }
 
   onReset = () => {
@@ -37,14 +45,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { turn, field, fieldStat } = this.state;
-
-    const { win, winner } = isThereWinner(fieldStat)
+    const { turn, field, win, winner } = this.state;
 
     const message = <p>{win ? `The winner is ${winner}` : `Now is ${turn}'s turn`}</p>;
     
     return (
-      <div className="m-3 col-3">
+      <div className="m-3">
         <h3 className="mb-3">Tic Tac Toe</h3>
         <Table field={field} onTurn={this.onTurn} />
         {message}

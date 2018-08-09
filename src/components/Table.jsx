@@ -4,7 +4,7 @@ const Row = (props) => {
   const { data, onTurn } = props;
 
   const signs = {
-    none: '',
+    none: 'e',
     cross: 'x',
     ring: 'o',
   }
@@ -12,7 +12,7 @@ const Row = (props) => {
   return (
     <tr>
       {data.map(({ id, value }) => value !== 'none' ? <td key={id}>{signs[value]}</td> :
-        <td key={id} onClick={onTurn(id)}>{signs[value]}</td>)}
+        <td key={id} className="empty" onClick={onTurn(id)}>{signs[value]}</td>)}
     </tr>
   )
 }

@@ -1,0 +1,14 @@
+.table.table-bordered {
+  width: 151px;
+  height: 151px;
+}
+
+.empty {
+  color: white;
+  cursor: pointer;
+}
+
+td {
+  text-align: center;
+  cursor: default;
+}
